@@ -1,4 +1,3 @@
-from aiohttp import ClientSession
 from fastapi import APIRouter, FastAPI
 
 from .routers import discovery, links
@@ -11,12 +10,6 @@ root_router.include_router(discovery.router, prefix="/care-contexts")
 root_router.include_router(links.router, prefix="/links")
 
 app.include_router(root_router)
-
-
-@app.on_event("startup")
-def init_client():
-    global api
-    global cm_api
 
 
 @app.on_event("shutdown")
