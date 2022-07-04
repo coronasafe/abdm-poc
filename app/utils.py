@@ -4,7 +4,6 @@ from typing import TypedDict
 from aiohttp import ClientSession
 from dotenv import load_dotenv
 from fastapi import Header, HTTPException
-from fastapi.security import HTTPBearer
 
 load_dotenv(dotenv_path=".env.local")
 
@@ -12,7 +11,9 @@ load_dotenv(dotenv_path=".env.local")
 class Api:
     def __init__(self):
         self.token = None
-        self.session = ClientSession("https://dev.ndhm.gov.in", raise_for_status=True)
+        self.session = ClientSession(
+            base_url="https://dev.abdm.gov.in", raise_for_status=False
+        )
 
     async def close(self):
         await self.session.close()
@@ -21,18 +22,19 @@ class Api:
         if not self.token:
             self.token = await self.get_token()
             self.session.headers.add("Authorization", f"Bearer {self.token}")
-        return await self.session.post(url, data)
+        return await self.session.post(url, json=data)
 
     async def get_token(self):
         res = await self.session.post(
-            "https://dev.abdm.gov.in/gateway/v1/bridges",
-            data={
+            url="/gateway/v0.5/sessions",
+            json={
                 "clientId": os.environ.get("clientId"),
                 "clientSecret": os.environ.get("clientSecret"),
             },
         )
-        print("res", res.headers, res)
-        return res
+
+        data = await res.json()
+        return data["accessToken"]
 
 
 api = Api()
