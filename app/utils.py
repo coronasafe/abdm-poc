@@ -5,7 +5,7 @@ from aiohttp import ClientSession
 from dotenv import load_dotenv
 from fastapi import Header, HTTPException
 
-load_dotenv(dotenv_path=".env.local")
+load_dotenv()
 
 
 class Api:
@@ -32,9 +32,10 @@ class Api:
                 "clientSecret": os.environ.get("clientSecret"),
             },
         )
-
+        
         data = await res.json()
-        return data["accessToken"]
+        self.token = data["accessToken"]
+        return self.token
 
 
 api = Api()

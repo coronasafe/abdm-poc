@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, Response, status
-from ..utils import api, verify_hip
+from utils import api, verify_hip
 
 router = APIRouter(tags=["link"], dependencies=[Depends(verify_hip)])
 
