@@ -23,7 +23,7 @@ class Facility(TypedDict):
     patients: list[Patient]
 
 
-db: list[Facility] = [
+facilities: list[Facility] = [
     {
         "id": "f1",
         "name": "facility #1",
@@ -40,3 +40,5 @@ db: list[Facility] = [
         ],
     }
 ]
+
+consents = {}
