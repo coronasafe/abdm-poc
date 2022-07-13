@@ -1,5 +1,5 @@
 from typing import Any, TypedDict
-from utils import api, verify_hip
+from ..utils.apis import gateway, verify_hip
 from fastapi import APIRouter, Depends, Response, status
 from pydantic import BaseModel
 
@@ -25,7 +25,9 @@ class ReqBody(BaseModel):
 @router.post("/discover", status_code=202)
 async def discover(body: ReqBody):
     try:
-        await api.call("/devservice/gateway/v0.5/care-contexts/on-discover", data=body.json())
+        await gateway.call(
+            "/devservice/gateway/v0.5/care-contexts/on-discover", data=body.json()
+        )
     except Exception as e:
         print(e)
     return Response(status_code=status.HTTP_202_ACCEPTED)
