@@ -8,6 +8,7 @@ from cryptography.hazmat.primitives.serialization import (
     Encoding,
     NoEncryption,
     PrivateFormat,
+    PublicFormat,
 )
 
 
@@ -15,6 +16,10 @@ class Crypt:
     def __init__(self, pk_raw: bytes):
         self.private_key = X25519PrivateKey.from_private_bytes(pk_raw)
         self.public_key = self.private_key.public_key()
+        self.public_key_bytes = pk_raw
+        self.public_key_bytes = self.public_key.public_bytes(
+            Encoding.Raw, PublicFormat.Raw
+        )
         self.random = token_bytes(32)
 
     def xored_nonce(self, nonce: bytes):

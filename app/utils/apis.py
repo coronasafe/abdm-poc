@@ -1,4 +1,3 @@
-from email import header
 import os
 
 from aiohttp import ClientSession
@@ -16,24 +15,24 @@ class Api:
     async def close(self):
         await self.session.close()
 
-    async def call(self, url: str, data=None, headers: dict = {}):
+    async def call(self, relative_url: str, data=None, headers: dict = {}):
         if not self.token:
             self.token = await self.get_token()
         req_headers = {"Authorization": f"Bearer {self.token}", **headers}
-        return await self.session.post(url, json=data, headers=req_headers)
+        return await self.session.post(relative_url, json=data, headers=req_headers)
 
     async def get_token(self):
-        res = await self.session.post(
-            url="/gateway/v0.5/sessions",
-            json={
-                "clientId": os.environ.get("clientId"),
-                "clientSecret": os.environ.get("clientSecret"),
-            },
-        )
-
-        data = await res.json()
-        self.token = data["accessToken"]
-        return self.token
+        async with ClientSession() as session:
+            res = await session.post(
+                url="https://dev.abdm.gov.in/gateway/v0.5/sessions",
+                json={
+                    "clientId": os.environ.get("clientId"),
+                    "clientSecret": os.environ.get("clientSecret"),
+                },
+            )
+            data = await res.json()
+            self.token = data["accessToken"]
+            return self.token
 
 
 gateway = Api("https://dev.abdm.gov.in")
