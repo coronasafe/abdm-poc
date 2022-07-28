@@ -2,6 +2,8 @@ from aiohttp import ClientSession
 from fastapi import APIRouter, Response, status
 from pydantic import BaseModel
 
+from app.utils.fhir import gen_bundle
+
 from ..utils.apis import gateway
 from ..utils.db import consents
 from ..utils.crypt import crypt
@@ -45,7 +47,14 @@ async def notify(body: ReqBody):
         public_key = body.hiRequest.keyMaterial["dhPublicKey"]["keyValue"]
         nonce = body.hiRequest.keyMaterial["dhPublicKey"]["parameters"]
         data = []
-        health_info = crypt.encrypt(public_key, bytes(data), nonce)
+        bundle = gen_bundle([])
+        encrypted_bundle = crypt.encrypt(public_key, bytes(bundle), nonce)
+        health_info = {
+            "content": encrypted_bundle,
+            "media": "application/fhir+json",
+            "checksum": "string",
+            "careContextReference": "TODO",
+        }
         data = {
             "pageNumber": 0,
             "pageCount": 0,
