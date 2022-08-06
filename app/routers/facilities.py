@@ -1,7 +1,7 @@
 from typing import List
 from fastapi import APIRouter, Response, status
 from pydantic import HttpUrl, BaseModel
-from ..utils.apis import gateway
+from app.utils.apis import gateway
 
 router = APIRouter(tags=["facility"])
 

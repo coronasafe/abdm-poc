@@ -1,5 +1,5 @@
 from typing import Any, TypedDict
-from ..utils.apis import gateway, verify_hip
+from app.utils.apis import gateway, verify_hip
 from fastapi import APIRouter, Depends, Response, status
 from pydantic import BaseModel
 

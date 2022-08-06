@@ -4,9 +4,9 @@ from pydantic import BaseModel
 
 from app.utils.fhir import gen_bundle
 
-from ..utils.apis import gateway
-from ..utils.db import consents
-from ..utils.crypt import crypt
+from app.utils.apis import gateway
+from app.utils.db import consents
+from app.utils.crypt import crypt
 
 router = APIRouter(tags=["health-information"])
 

@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
-from .routers.base import router
-from .utils.apis import gateway
+from app.routers.base import router
+from app.utils.apis import gateway
 
 app = FastAPI(title="ABDM POC")
 app.include_router(router)

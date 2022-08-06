@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Response, status
 from pydantic import BaseModel
-from ..utils.apis import gateway
-from ..utils.db import consents
+from app.utils.apis import gateway
+from app.utils.db import consents
 
 router = APIRouter(tags=["consents"])
 
