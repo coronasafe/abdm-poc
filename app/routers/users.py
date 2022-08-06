@@ -5,7 +5,7 @@ from enum import Enum
 from typing import List
 from pydantic import BaseModel, Field
 from app.routers.gateway import PatientAuthPurpose, PatientAuthRequester
-from app.utils.exception import Acknowledgement, Error
+from app.utils.exception import Acknowledgement, Acknowledgement_Callback, Error
 
 router = APIRouter(tags=["user auth"])
 
@@ -76,16 +76,8 @@ class PatientAuthNotification(BaseModel):
     auth: PatientAuthNotificationAuth
 
 
-class RequestReference(BaseModel):
-    requestId: UUID
-
-
-class PatientAuthNotificationAcknowledgement(BaseModel):
-    requestId: UUID
-    timestamp: datetime
-    acknowledgement: Acknowledgement
-    error: Error
-    resp: RequestReference
+class PatientAuthNotificationAcknowledgement(Acknowledgement_Callback):
+    pass
 
 
 auth_notify = APIRouter(prefix="/v0.5")
