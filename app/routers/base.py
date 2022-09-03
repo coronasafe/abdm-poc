@@ -5,7 +5,7 @@ from app.routers import (
     consents,
     gateway,
     health_info,
-    link,
+    registration,
     users,
 )
 
@@ -15,4 +15,5 @@ router.include_router(discovery.router, prefix="/care-contexts")
 router.include_router(facilities.router, prefix="/facility")
 router.include_router(consents.router, prefix="/consents/hip")
 router.include_router(health_info.router, prefix="/health-information/hip")
+router.include_router(registration.router, prefix="/registration")
 router.include_router(gateway.router)
