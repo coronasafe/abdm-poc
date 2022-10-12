@@ -13,7 +13,7 @@ class HIPUrlBody(BaseModel):
 @router.post("/set-hip-url")
 async def set_hip_url(req: HIPUrlBody):
     try:
-        await gateway.call("/devservice/v1/bridges", data=req.json())
+        await gateway.call("/gateway/v1/bridges", data=req.json())
     except Exception as e:
         print(e)
     return Response(status_code=status.HTTP_202_ACCEPTED)
@@ -30,7 +30,7 @@ class FacilityData(BaseModel):
 @router.post("/set-facility")
 async def set_facility(req: FacilityData):
     try:
-        await gateway.call("/devservice/v1/bridges/services", data=req.json())
+        await gateway.call("/gateway/v1/bridges/services", data=req.json())
     except Exception as e:
         print(e)
     return Response(status_code=status.HTTP_202_ACCEPTED)
@@ -51,10 +51,10 @@ class FacilityLinkData(BaseModel):
     endpoints: List[FacilityEndpoint]
 
 
-@router.post('/link-facility')
+@router.post("/link-facility")
 async def link_facility(req: FacilityLinkData):
     try:
-        await gateway.call("/v1/bridges/addUpdateServices", data=req.json())
+        await gateway.call("/gateway/v1/bridges/addUpdateServices", data=req.json())
     except Exception as e:
         print(e)
     return Response(status_code=status.HTTP_202_ACCEPTED)
