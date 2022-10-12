@@ -88,12 +88,9 @@ async def init(
     gatewayBody: PatientAuthInitRequest = Body(),
 ):
     headers = {"X-CM-ID": X_CM_ID}
-    try:
-        gateway.call("/gateway/v0.5/users/auth/init", data=gatewayBody, headers=headers)
-
-    except Exception as e:
-        print(e)
-    return Response(status_code=status.HTTP_202_ACCEPTED)
+    return await gateway.call(
+        "/gateway/v0.5/users/auth/init", data=gatewayBody, headers=headers
+    )
 
 
 @router.post(
@@ -109,11 +106,6 @@ async def add_contexts(
 ):
 
     headers = {"X-CM-ID": X_CM_ID}
-    try:
-        gateway.call(
-            "/gateway/v0.5/links/link/add-contexts", data=gatewayBody, headers=headers
-        )
-
-    except Exception as e:
-        print(e)
-    return Response(status_code=status.HTTP_202_ACCEPTED)
+    return await gateway.call(
+        "/gateway/v0.5/links/link/add-contexts", data=gatewayBody, headers=headers
+    )

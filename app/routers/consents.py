@@ -34,7 +34,7 @@ async def notify(body: ReqBody):
             "resp": {"requestId": body.requestId},
         }
         headers = {"X-CM-ID": body.notification.consentDetails["consentManager"]["id"]}
-        await gateway.call(
+        return await gateway.call(
             "/gateway/v0.5/consents/hip/on-notify", data=response, headers=headers
         )
     return Response(status_code=status.HTTP_202_ACCEPTED)

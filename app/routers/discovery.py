@@ -24,10 +24,6 @@ class ReqBody(BaseModel):
 
 @router.post("/discover", status_code=202)
 async def discover(body: ReqBody):
-    try:
-        await gateway.call(
-            "/devservice/gateway/v0.5/care-contexts/on-discover", data=body.json()
-        )
-    except Exception as e:
-        print(e)
-    return Response(status_code=status.HTTP_202_ACCEPTED)
+    return await gateway.call(
+        "/devservice/gateway/v0.5/care-contexts/on-discover", data=body.json()
+    )

@@ -1,9 +1,8 @@
-import json
 import os
 
 from aiohttp import ClientSession
 from dotenv import load_dotenv
-from fastapi import Header, HTTPException
+from fastapi import Header, HTTPException, Response, status
 
 load_dotenv()
 
@@ -17,11 +16,20 @@ class Api:
     async def close(self):
         await self.session.close()
 
-    async def call(self, relative_url: str, data=None, headers: dict = {}):
+    async def call(
+        self, relative_url: str, data=None, headers: dict = {}, method="POST"
+    ):
         if self.require_auth and not self.token:
             self.token = await self.get_token()
         req_headers = {"Authorization": f"Bearer {self.token}", **headers}
-        return await self.session.post(relative_url, json=data, headers=req_headers)
+        try:
+            await self.session.request(
+                method, relative_url, json=data, headers=req_headers
+            )
+            return Response(status_code=status.HTTP_202_ACCEPTED)
+        except Exception as e:
+            print(e)
+            return Response(status_code=e.status, content=e.message)
 
     async def get_token(self):
         async with ClientSession() as session:
