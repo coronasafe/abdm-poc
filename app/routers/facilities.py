@@ -12,7 +12,7 @@ class HIPUrlBody(BaseModel):
 
 @router.post("/set-hip-url")
 async def set_hip_url(req: HIPUrlBody):
-    return await gateway.call("/gateway/v1/bridges", data=req.json(), method="PATCH")
+    return await gateway.call("/gateway/v1/bridges", data=req.dict(), method="PATCH")
 
 
 class FacilityData(BaseModel):
@@ -25,7 +25,7 @@ class FacilityData(BaseModel):
 
 @router.post("/set-facility")
 async def set_facility(req: FacilityData):
-    return await gateway.call("/gateway/v1/bridges/services", data=req.json())
+    return await gateway.call("/gateway/v1/bridges/services", data=req.dict())
 
 
 class FacilityEndpoint(BaseModel):
@@ -45,4 +45,4 @@ class FacilityLinkData(BaseModel):
 
 @router.post("/link-facility")
 async def link_facility(req: FacilityLinkData):
-    return await gateway.call("/gateway/v1/bridges/addUpdateServices", data=req.json())
+    return await gateway.call("/gateway/v1/bridges/addUpdateServices", data=req.dict())

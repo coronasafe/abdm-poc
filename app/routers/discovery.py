@@ -25,5 +25,5 @@ class ReqBody(BaseModel):
 @router.post("/discover", status_code=202)
 async def discover(body: ReqBody):
     return await gateway.call(
-        "/devservice/gateway/v0.5/care-contexts/on-discover", data=body.json()
+        "/devservice/gateway/v0.5/care-contexts/on-discover", data=body.dict()
     )

@@ -89,7 +89,7 @@ async def init(
 ):
     headers = {"X-CM-ID": X_CM_ID}
     return await gateway.call(
-        "/gateway/v0.5/users/auth/init", data=gatewayBody, headers=headers
+        "/gateway/v0.5/users/auth/init", data=gatewayBody.dict(), headers=headers
     )
 
 
@@ -107,5 +107,7 @@ async def add_contexts(
 
     headers = {"X-CM-ID": X_CM_ID}
     return await gateway.call(
-        "/gateway/v0.5/links/link/add-contexts", data=gatewayBody, headers=headers
+        "/gateway/v0.5/links/link/add-contexts",
+        data=gatewayBody.dict(),
+        headers=headers,
     )
